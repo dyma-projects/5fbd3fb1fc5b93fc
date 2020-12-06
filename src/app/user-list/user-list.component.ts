@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../shared/services/user.service'
 
 @Component({
   selector: 'app-user-list',
@@ -8,12 +9,20 @@ import { Component, OnInit } from '@angular/core';
 export class UserListComponent implements OnInit {
   public users: string[];
 
-  constructor(
-    // il faut probablement injecter un service ici !
+  constructor(public userService : UserService
   ) { }
 
   ngOnInit() {
-    // il faut initialiser les users ici avec le service
+    this.userService.users.subscribe( 
+      (data : string[]) => {
+        this.users = data;
+        console.log('load date : ',data)
+      }
+    )
+    //comme pour le moment, on ne fait qu'afficher une liste, 
+    //on pourait ne pas utiliser le subscribe
+    //et seulement faire : this.users = this.userService.users.value;
+    //vu que l'on fonctionne par référence (je crois) ?
   }
 
 }
